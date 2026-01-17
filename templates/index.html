@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternate Timeline News</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">◈</span>
+                <div class="logo-text">
+                    <h1>Alternate Timeline News</h1>
+                    <p class="tagline">Headlines from parallel universes</p>
+                </div>
+            </div>
+            <button class="btn-refresh" onclick="location.reload()">
+                <span>↻</span> New Timeline
+            </button>
+        </header>
+
+        <div class="ticker">
+            <div class="ticker-label">BREAKING</div>
+            <div class="ticker-content">
+                <span>Reality may vary • Not responsible for timeline contamination • Side effects include existential wonder • These events are happening somewhere • Probably</span>
+            </div>
+        </div>
+
+        <main class="news-grid">
+            {% for news in headlines %}
+            <article class="news-card">
+                <div class="news-meta">
+                    <span class="category">{{ news.category }}</span>
+                    <span class="timeline">{{ news.timeline }}</span>
+                </div>
+                <h2 class="headline">{{ news.headline }}</h2>
+                <div class="news-footer">
+                    <span class="time">{{ news.time_ago }}</span>
+                    <div class="reactions">
+                        <span class="reaction">😕 {{ "{:,}".format(news.reactions.confused) }}</span>
+                        <span class="reaction">😰 {{ "{:,}".format(news.reactions.concerned) }}</span>
+                        <span class="reaction">😂 {{ "{:,}".format(news.reactions.delighted) }}</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </main>
+
+        <section class="timeline-selector">
+            <h2>Browse Timelines</h2>
+            <div class="timeline-chips">
+                <button class="timeline-chip active">All Timelines</button>
+                <button class="timeline-chip">The Reasonable One</button>
+                <button class="timeline-chip">Chaos Dimension</button>
+                <button class="timeline-chip">Where It All Worked Out</button>
+                <button class="timeline-chip">The Weird One</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>Transmitting from the space between realities since [TEMPORAL ERROR]</p>
+            <p class="disclaimer">These headlines are from parallel universes and may not apply to your timeline. Please do not attempt to verify.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.querySelectorAll('.timeline-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelector('.timeline-chip.active')?.classList.remove('active');
+                chip.classList.add('active');
+                // In a full app, this would filter headlines
+                location.reload();
+            });
+        });
+
+        // Glitch effect on hover
+        document.querySelectorAll('.headline').forEach(headline => {
+            headline.addEventListener('mouseenter', () => {
+                headline.style.textShadow = '2px 0 #ff0080, -2px 0 #00ff80';
+                setTimeout(() => {
+                    headline.style.textShadow = 'none';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
